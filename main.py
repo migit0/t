@@ -1,11 +1,12 @@
 import asyncio
 import logging
 import sys
+from typing import List
 
 from aiogram import Bot, Dispatcher, Router, types
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart, Command
-from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.markdown import hbold
 
 token = "7110556019:AAG05mzFIypf8PlpbNOj5_w8qGmr3ez-NYk"
@@ -15,26 +16,37 @@ dp = Dispatcher()
 
 class ButtonText:
     HELLO = "Привет"
-    HELP = "Вторая кнопка"
+    HELP = "Показать возможности"
+    DOC = "Скачать документ"
+    DOCLINK = "https://drive.google.com/file/d/1d9-yNINYFJqAAFWk2ngcPDCfyq2U2cCu/view?usp=sharing"
+    TEAMBILD = "Запись на мероприятие"
+    TEAMBILINK = "https://t.me/c/1775748072/693"
+
+
+tg_docs_btn = InlineKeyboardButton(text=ButtonText.DOC, url=ButtonText.DOCLINK)
+tg_thems_btn = InlineKeyboardButton(text=ButtonText.TEAMBILD, url=ButtonText.TEAMBILINK)
+
+row = [tg_docs_btn, tg_thems_btn]
+buttons_row = [row]
+func_list = InlineKeyboardMarkup(inline_keyboard=buttons_row)
 
 
 @dp.message(CommandStart())
 async def start_handler(message: Message) -> None:
     button_hello = KeyboardButton(text=ButtonText.HELLO)
-    button_help = KeyboardButton(text=ButtonText.HELP, URL="https://1c.ru/")
+    button_help = KeyboardButton(text=ButtonText.HELP)
 
     buttons_row = [button_hello, button_help]
     keyboard = ReplyKeyboardMarkup(keyboard=[buttons_row], resize_keyboard=True)
     await message.answer(
         text=f"Привет, {hbold(message.from_user.full_name)}!",
-        reply_markup=keyboard
-    )
+        reply_markup=keyboard)
 
 
 @dp.message(Command("help"))
 async def handler_help_handler(message: Message) -> None:
     text = "Как Вам помочь?"
-    await message.answer(text=text)
+    await message.answer(text="Ресусры", reply_markup=func_list)
 
 
 async def main():
@@ -44,16 +56,3 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-
-'''import telebot
-
-token = "7110556019:AAG05mzFIypf8PlpbNOj5_w8qGmr3ez-NYk"
-
-bot = telebot.TeleBot(token)
-
-
-@bot.message_handler(commands=['help', 'start'])
-def send_welcome(message):
-    bot.reply_to(message, "Bot is working!")
-
-bot.infinity_polling()'''
