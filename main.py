@@ -20,7 +20,7 @@ class ButtonText:
     DOC = "Скачать документ"
     DOCLINK = "https://drive.google.com/file/d/1d9-yNINYFJqAAFWk2ngcPDCfyq2U2cCu/view?usp=sharing"
     TEAMBILD = "Запись на мероприятие"
-    TEAMBILINK = "https://t.me/c/1775748072/693";
+    TEAMBILINK = "https://t.me/c/1775748072/693"
 
 
 tg_docs_btn = InlineKeyboardButton(text=ButtonText.DOC, url=ButtonText.DOCLINK)
