@@ -1,4 +1,4 @@
-from  datetime import strptime
+from datetime import strptime
 #класс мероприятия
 #список админов
 admin = []
